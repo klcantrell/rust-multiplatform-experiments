@@ -11,27 +11,8 @@
 		E51061C52AE3F76F00517549 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E51061C42AE3F76F00517549 /* ContentView.swift */; };
 		E51061C72AE3F77100517549 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E51061C62AE3F77100517549 /* Assets.xcassets */; };
 		E51061CA2AE3F77100517549 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E51061C92AE3F77100517549 /* Preview Assets.xcassets */; };
-		E53266F92AE4B42700BA5731 /* libshared.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E53266F72AE45E7300BA5731 /* libshared.a */; };
-		E573036F2AE449140074D0BE /* shared.udl in Sources */ = {isa = PBXBuildFile; fileRef = E573036E2AE449140074D0BE /* shared.udl */; };
+		E5D5608C2AE4CF4100C12250 /* Shared in Frameworks */ = {isa = PBXBuildFile; productRef = E5D5608B2AE4CF4100C12250 /* Shared */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXBuildRule section */
-		E51061D92AE3F7CC00517549 /* PBXBuildRule */ = {
-			isa = PBXBuildRule;
-			compilerSpec = com.apple.compilers.proxy.script;
-			filePatterns = "*.udl";
-			fileType = pattern.proxy;
-			inputFiles = (
-			);
-			isEditable = 1;
-			outputFiles = (
-				"$(PROJECT_DIR)/generated/$(INPUT_FILE_BASE).swift",
-				"$(PROJECT_DIR)/generated/$(INPUT_FILE_BASE)FFI.h",
-			);
-			runOncePerArchitecture = 0;
-			script = "# Type a script #!/bin/bash\nset -e\n\n# Skip during indexing phase in XCode 13+\nif [ \"$ACTION\" == \"indexbuild\" ]; then\n   echo \"Not building *.udl files during indexing.\"\n   exit 0\nfi\n\n# Skip for preview builds\nif [ \"$ENABLE_PREVIEWS\" = \"YES\" ]; then\n   echo \"Not building *.udl files during preview builds.\"\n   exit 0\nfi\n\ncd \"${INPUT_FILE_DIR}/../..\"\n\"./target/debug/uniffi-bindgen\" generate \"shared/src/${INPUT_FILE_NAME}\" --language swift --out-dir \"${PROJECT_DIR}/generated\"\n";
-		};
-/* End PBXBuildRule section */
 
 /* Begin PBXFileReference section */
 		E51061BF2AE3F76F00517549 /* TryUniffiRust.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TryUniffiRust.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -39,8 +20,7 @@
 		E51061C42AE3F76F00517549 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E51061C62AE3F77100517549 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E51061C92AE3F77100517549 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		E53266F72AE45E7300BA5731 /* libshared.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libshared.a; path = "../target/x86_64-apple-ios/debug/libshared.a"; sourceTree = "<group>"; };
-		E573036E2AE449140074D0BE /* shared.udl */ = {isa = PBXFileReference; lastKnownFileType = text; name = shared.udl; path = ../shared/src/shared.udl; sourceTree = "<group>"; };
+		E5D560892AE4CE8600C12250 /* SharedPackage */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SharedPackage; path = ../iosArtifacts/SharedPackage; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,7 +28,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E53266F92AE4B42700BA5731 /* libshared.a in Frameworks */,
+				E5D5608C2AE4CF4100C12250 /* Shared in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,10 +38,10 @@
 		E51061B62AE3F76F00517549 = {
 			isa = PBXGroup;
 			children = (
-				E573036E2AE449140074D0BE /* shared.udl */,
+				E53663532AE4CC48002171FA /* Packages */,
 				E51061C12AE3F76F00517549 /* TryUniffiRust */,
 				E51061C02AE3F76F00517549 /* Products */,
-				E51061DA2AE3F7FD00517549 /* Frameworks */,
+				E5D5608A2AE4CF4100C12250 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -92,10 +72,17 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		E51061DA2AE3F7FD00517549 /* Frameworks */ = {
+		E53663532AE4CC48002171FA /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				E53266F72AE45E7300BA5731 /* libshared.a */,
+				E5D560892AE4CE8600C12250 /* SharedPackage */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		E5D5608A2AE4CF4100C12250 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -107,17 +94,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E51061CD2AE3F77100517549 /* Build configuration list for PBXNativeTarget "TryUniffiRust" */;
 			buildPhases = (
-				E56599EA2AE44E9C00EB195B /* ShellScript */,
 				E51061BB2AE3F76F00517549 /* Sources */,
 				E51061BC2AE3F76F00517549 /* Frameworks */,
 				E51061BD2AE3F76F00517549 /* Resources */,
 			);
 			buildRules = (
-				E51061D92AE3F7CC00517549 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
 			name = TryUniffiRust;
+			packageProductDependencies = (
+				E5D5608B2AE4CF4100C12250 /* Shared */,
+			);
 			productName = TryUniffiRust;
 			productReference = E51061BF2AE3F76F00517549 /* TryUniffiRust.app */;
 			productType = "com.apple.product-type.application";
@@ -167,33 +155,11 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		E56599EA2AE44E9C00EB195B /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "bash $SRCROOT/xc-universal-binary.sh shared $SRCROOT/.. $CONFIGURATION\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		E51061BB2AE3F76F00517549 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E573036F2AE449140074D0BE /* shared.udl in Sources */,
 				E51061C52AE3F76F00517549 /* ContentView.swift in Sources */,
 				E51061C32AE3F76F00517549 /* TryUniffiRustApp.swift in Sources */,
 			);
@@ -258,7 +224,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OBJC_BRIDGING_HEADER = generated/sharedFFI.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -312,7 +278,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OBJC_BRIDGING_HEADER = generated/sharedFFI.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -345,7 +311,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kalalau.TryUniffiRust;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = generated/sharedFFI.h;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -378,7 +343,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kalalau.TryUniffiRust;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = generated/sharedFFI.h;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -406,6 +370,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E5D5608B2AE4CF4100C12250 /* Shared */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Shared;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E51061B72AE3F76F00517549 /* Project object */;
 }
