@@ -94,6 +94,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E51061CD2AE3F77100517549 /* Build configuration list for PBXNativeTarget "TryUniffiRust" */;
 			buildPhases = (
+				E5E1A9B82AE75D8A00CF4B49 /* ShellScript */,
 				E51061BB2AE3F76F00517549 /* Sources */,
 				E51061BC2AE3F76F00517549 /* Frameworks */,
 				E51061BD2AE3F76F00517549 /* Resources */,
@@ -154,6 +155,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E5E1A9B82AE75D8A00CF4B49 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# this script doesn't actually work yet since it\n# doesn't seem to finish in time before there\n# are linker errors\n\nbash $SRCROOT/xc-universal-binary.sh shared_klc $SRCROOT/.. $CONFIGURATION\n\ncd $SRCROOT/..\n$HOME/.cargo/bin/cargo run -p uniffi-bindgen generate \\\n--library target/x86_64-apple-ios/debug/libshared_klc.dylib \\\n--language swift \\\n--out-dir shared_klc/src/iosBindings\n\nmv shared_klc/src/iosBindings/sharedFFI.modulemap shared_klc/src/iosBindings/module.modulemap\n\nrm -rf iosArtifacts/SharedPackage/sharedFFI.xcframework\n\nxcodebuild -create-xcframework \\\n-library target/x86_64-apple-ios/debug/libshared_klc.a \\\n-headers shared_klc/src/iosBindings/ \\\n-output iosArtifacts/SharedPackage/sharedFFI.xcframework\n\ncat shared_klc/src/iosBindings/shared.swift > iosArtifacts/SharedPackage/Sources/Shared/Shared.swift\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E51061BB2AE3F76F00517549 /* Sources */ = {

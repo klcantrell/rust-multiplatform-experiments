@@ -11,7 +11,7 @@ struct ContentView: View {
         }
         .padding()
         .onAppear {
-            print("4 + 5 = \(add(4, 5))")
+            print("4 + 5 = \(addStuff(4, 5))")
         }
     }
 }

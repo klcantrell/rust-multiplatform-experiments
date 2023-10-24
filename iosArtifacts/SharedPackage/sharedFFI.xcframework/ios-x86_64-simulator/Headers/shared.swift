@@ -297,15 +297,15 @@ private func uniffiCheckCallStatus(
 // Public interface members begin here.
 
 
-fileprivate struct FfiConverterUInt32: FfiConverterPrimitive {
-    typealias FfiType = UInt32
-    typealias SwiftType = UInt32
+fileprivate struct FfiConverterInt32: FfiConverterPrimitive {
+    typealias FfiType = Int32
+    typealias SwiftType = Int32
 
-    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> UInt32 {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> Int32 {
         return try lift(readInt(&buf))
     }
 
-    public static func write(_ value: SwiftType, into buf: inout [UInt8]) {
+    public static func write(_ value: Int32, into buf: inout [UInt8]) {
         writeInt(&buf, lower(value))
     }
 }
@@ -348,12 +348,12 @@ fileprivate struct FfiConverterString: FfiConverter {
     }
 }
 
-public func add(_ left: UInt32, _ right: UInt32)  -> UInt32 {
-    return try!  FfiConverterUInt32.lift(
+public func addThings(_ left: Int32, _ right: Int32)  -> Int32 {
+    return try!  FfiConverterInt32.lift(
         try! rustCall() {
-    uniffi_shared_klc_fn_func_add(
-        FfiConverterUInt32.lower(left),
-        FfiConverterUInt32.lower(right),$0)
+    uniffi_shared_klc_fn_func_add_things(
+        FfiConverterInt32.lower(left),
+        FfiConverterInt32.lower(right),$0)
 }
     )
 }
@@ -373,7 +373,7 @@ private var initializationResult: InitializationResult {
     if bindings_contract_version != scaffolding_contract_version {
         return InitializationResult.contractVersionMismatch
     }
-    if (uniffi_shared_klc_checksum_func_add() != 22940) {
+    if (uniffi_shared_klc_checksum_func_add_things() != 30249) {
         return InitializationResult.apiChecksumMismatch
     }
 
