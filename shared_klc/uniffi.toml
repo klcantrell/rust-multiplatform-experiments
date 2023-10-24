@@ -1,6 +1,6 @@
 [bindings.kotlin]
 package_name = "com.example.shared"
-cdylib_name = "shared"
+cdylib_name = "shared_klc"
 
 [bindings.swift]
 cdylib_name = "shared_ffi"
