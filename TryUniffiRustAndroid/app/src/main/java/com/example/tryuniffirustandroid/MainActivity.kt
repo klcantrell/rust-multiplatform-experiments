@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.shared.add
+import com.example.shared.addThings
 import com.example.tryuniffirustandroid.ui.theme.TryUniffiRustAndroidTheme
 
 class MainActivity : ComponentActivity() {
@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     LaunchedEffect("first_page_load") {
-                        Log.i("TEST UNIFFI", "4 + 5 = ${add(4u, 5u)}")
+                        Log.i("TEST UNIFFI", "4 + 5 = ${addThings(4, 5)}")
                     }
 
                     Greeting("Android")

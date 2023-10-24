@@ -373,7 +373,7 @@ internal interface _UniFFILib : Library {
         }
     }
 
-    fun uniffi_shared_klc_fn_func_add(`left`: Int,`right`: Int,_uniffi_out_err: RustCallStatus, 
+    fun uniffi_shared_klc_fn_func_add_things(`left`: Int,`right`: Int,_uniffi_out_err: RustCallStatus, 
     ): Int
     fun ffi_shared_klc_rustbuffer_alloc(`size`: Int,_uniffi_out_err: RustCallStatus, 
     ): RustBuffer.ByValue
@@ -489,7 +489,7 @@ internal interface _UniFFILib : Library {
     ): Unit
     fun ffi_shared_klc_rust_future_complete_void(`handle`: Pointer,_uniffi_out_err: RustCallStatus, 
     ): Unit
-    fun uniffi_shared_klc_checksum_func_add(
+    fun uniffi_shared_klc_checksum_func_add_things(
     ): Short
     fun ffi_shared_klc_uniffi_contract_version(
     ): Int
@@ -508,7 +508,7 @@ private fun uniffiCheckContractApiVersion(lib: _UniFFILib) {
 
 @Suppress("UNUSED_PARAMETER")
 private fun uniffiCheckApiChecksums(lib: _UniFFILib) {
-    if (lib.uniffi_shared_klc_checksum_func_add() != 22940.toShort()) {
+    if (lib.uniffi_shared_klc_checksum_func_add_things() != 30249.toShort()) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
 }
@@ -518,23 +518,23 @@ private fun uniffiCheckApiChecksums(lib: _UniFFILib) {
 // Public interface members begin here.
 
 
-public object FfiConverterUInt: FfiConverter<UInt, Int> {
-    override fun lift(value: Int): UInt {
-        return value.toUInt()
+public object FfiConverterInt: FfiConverter<Int, Int> {
+    override fun lift(value: Int): Int {
+        return value
     }
 
-    override fun read(buf: ByteBuffer): UInt {
-        return lift(buf.getInt())
+    override fun read(buf: ByteBuffer): Int {
+        return buf.getInt()
     }
 
-    override fun lower(value: UInt): Int {
-        return value.toInt()
+    override fun lower(value: Int): Int {
+        return value
     }
 
-    override fun allocationSize(value: UInt) = 4
+    override fun allocationSize(value: Int) = 4
 
-    override fun write(value: UInt, buf: ByteBuffer) {
-        buf.putInt(value.toInt())
+    override fun write(value: Int, buf: ByteBuffer) {
+        buf.putInt(value)
     }
 }
 
@@ -592,10 +592,10 @@ public object FfiConverterString: FfiConverter<String, RustBuffer.ByValue> {
     }
 }
 
-fun `add`(`left`: UInt, `right`: UInt): UInt {
-    return FfiConverterUInt.lift(
+fun `addThings`(`left`: Int, `right`: Int): Int {
+    return FfiConverterInt.lift(
     rustCall() { _status ->
-    _UniFFILib.INSTANCE.uniffi_shared_klc_fn_func_add(FfiConverterUInt.lower(`left`),FfiConverterUInt.lower(`right`),_status)
+    _UniFFILib.INSTANCE.uniffi_shared_klc_fn_func_add_things(FfiConverterInt.lower(`left`),FfiConverterInt.lower(`right`),_status)
 })
 }
 
