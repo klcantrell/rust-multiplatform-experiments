@@ -561,7 +561,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "shared"
+name = "shared_klc"
 version = "0.1.0"
 dependencies = [
  "uniffi",

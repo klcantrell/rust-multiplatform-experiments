@@ -1,5 +1,5 @@
 [workspace]
-members = ["shared", "uniffi-bindgen"]
+members = ["shared_klc", "uniffi-bindgen"]
 resolver = "1"
 
 [workspace.package]

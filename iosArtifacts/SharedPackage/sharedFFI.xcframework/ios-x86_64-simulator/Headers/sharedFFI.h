@@ -63,126 +63,126 @@ typedef struct RustCallStatus {
 typedef void (*UniFfiRustFutureContinuation)(void * _Nonnull, int8_t);
 
 // Scaffolding functions
-uint32_t uniffi_shared_fn_func_add(uint32_t a, uint32_t b, RustCallStatus *_Nonnull out_status
+uint32_t uniffi_shared_klc_fn_func_add(uint32_t left, uint32_t right, RustCallStatus *_Nonnull out_status
 );
-RustBuffer ffi_shared_rustbuffer_alloc(int32_t size, RustCallStatus *_Nonnull out_status
+RustBuffer ffi_shared_klc_rustbuffer_alloc(int32_t size, RustCallStatus *_Nonnull out_status
 );
-RustBuffer ffi_shared_rustbuffer_from_bytes(ForeignBytes bytes, RustCallStatus *_Nonnull out_status
+RustBuffer ffi_shared_klc_rustbuffer_from_bytes(ForeignBytes bytes, RustCallStatus *_Nonnull out_status
 );
-void ffi_shared_rustbuffer_free(RustBuffer buf, RustCallStatus *_Nonnull out_status
+void ffi_shared_klc_rustbuffer_free(RustBuffer buf, RustCallStatus *_Nonnull out_status
 );
-RustBuffer ffi_shared_rustbuffer_reserve(RustBuffer buf, int32_t additional, RustCallStatus *_Nonnull out_status
+RustBuffer ffi_shared_klc_rustbuffer_reserve(RustBuffer buf, int32_t additional, RustCallStatus *_Nonnull out_status
 );
-void ffi_shared_rust_future_continuation_callback_set(UniFfiRustFutureContinuation _Nonnull callback
+void ffi_shared_klc_rust_future_continuation_callback_set(UniFfiRustFutureContinuation _Nonnull callback
 );
-void ffi_shared_rust_future_poll_u8(void* _Nonnull handle, void* _Nonnull uniffi_callback
+void ffi_shared_klc_rust_future_poll_u8(void* _Nonnull handle, void* _Nonnull uniffi_callback
 );
-void ffi_shared_rust_future_cancel_u8(void* _Nonnull handle
+void ffi_shared_klc_rust_future_cancel_u8(void* _Nonnull handle
 );
-void ffi_shared_rust_future_free_u8(void* _Nonnull handle
+void ffi_shared_klc_rust_future_free_u8(void* _Nonnull handle
 );
-uint8_t ffi_shared_rust_future_complete_u8(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
+uint8_t ffi_shared_klc_rust_future_complete_u8(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
 );
-void ffi_shared_rust_future_poll_i8(void* _Nonnull handle, void* _Nonnull uniffi_callback
+void ffi_shared_klc_rust_future_poll_i8(void* _Nonnull handle, void* _Nonnull uniffi_callback
 );
-void ffi_shared_rust_future_cancel_i8(void* _Nonnull handle
+void ffi_shared_klc_rust_future_cancel_i8(void* _Nonnull handle
 );
-void ffi_shared_rust_future_free_i8(void* _Nonnull handle
+void ffi_shared_klc_rust_future_free_i8(void* _Nonnull handle
 );
-int8_t ffi_shared_rust_future_complete_i8(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
+int8_t ffi_shared_klc_rust_future_complete_i8(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
 );
-void ffi_shared_rust_future_poll_u16(void* _Nonnull handle, void* _Nonnull uniffi_callback
+void ffi_shared_klc_rust_future_poll_u16(void* _Nonnull handle, void* _Nonnull uniffi_callback
 );
-void ffi_shared_rust_future_cancel_u16(void* _Nonnull handle
+void ffi_shared_klc_rust_future_cancel_u16(void* _Nonnull handle
 );
-void ffi_shared_rust_future_free_u16(void* _Nonnull handle
+void ffi_shared_klc_rust_future_free_u16(void* _Nonnull handle
 );
-uint16_t ffi_shared_rust_future_complete_u16(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
+uint16_t ffi_shared_klc_rust_future_complete_u16(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
 );
-void ffi_shared_rust_future_poll_i16(void* _Nonnull handle, void* _Nonnull uniffi_callback
+void ffi_shared_klc_rust_future_poll_i16(void* _Nonnull handle, void* _Nonnull uniffi_callback
 );
-void ffi_shared_rust_future_cancel_i16(void* _Nonnull handle
+void ffi_shared_klc_rust_future_cancel_i16(void* _Nonnull handle
 );
-void ffi_shared_rust_future_free_i16(void* _Nonnull handle
+void ffi_shared_klc_rust_future_free_i16(void* _Nonnull handle
 );
-int16_t ffi_shared_rust_future_complete_i16(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
+int16_t ffi_shared_klc_rust_future_complete_i16(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
 );
-void ffi_shared_rust_future_poll_u32(void* _Nonnull handle, void* _Nonnull uniffi_callback
+void ffi_shared_klc_rust_future_poll_u32(void* _Nonnull handle, void* _Nonnull uniffi_callback
 );
-void ffi_shared_rust_future_cancel_u32(void* _Nonnull handle
+void ffi_shared_klc_rust_future_cancel_u32(void* _Nonnull handle
 );
-void ffi_shared_rust_future_free_u32(void* _Nonnull handle
+void ffi_shared_klc_rust_future_free_u32(void* _Nonnull handle
 );
-uint32_t ffi_shared_rust_future_complete_u32(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
+uint32_t ffi_shared_klc_rust_future_complete_u32(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
 );
-void ffi_shared_rust_future_poll_i32(void* _Nonnull handle, void* _Nonnull uniffi_callback
+void ffi_shared_klc_rust_future_poll_i32(void* _Nonnull handle, void* _Nonnull uniffi_callback
 );
-void ffi_shared_rust_future_cancel_i32(void* _Nonnull handle
+void ffi_shared_klc_rust_future_cancel_i32(void* _Nonnull handle
 );
-void ffi_shared_rust_future_free_i32(void* _Nonnull handle
+void ffi_shared_klc_rust_future_free_i32(void* _Nonnull handle
 );
-int32_t ffi_shared_rust_future_complete_i32(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
+int32_t ffi_shared_klc_rust_future_complete_i32(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
 );
-void ffi_shared_rust_future_poll_u64(void* _Nonnull handle, void* _Nonnull uniffi_callback
+void ffi_shared_klc_rust_future_poll_u64(void* _Nonnull handle, void* _Nonnull uniffi_callback
 );
-void ffi_shared_rust_future_cancel_u64(void* _Nonnull handle
+void ffi_shared_klc_rust_future_cancel_u64(void* _Nonnull handle
 );
-void ffi_shared_rust_future_free_u64(void* _Nonnull handle
+void ffi_shared_klc_rust_future_free_u64(void* _Nonnull handle
 );
-uint64_t ffi_shared_rust_future_complete_u64(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
+uint64_t ffi_shared_klc_rust_future_complete_u64(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
 );
-void ffi_shared_rust_future_poll_i64(void* _Nonnull handle, void* _Nonnull uniffi_callback
+void ffi_shared_klc_rust_future_poll_i64(void* _Nonnull handle, void* _Nonnull uniffi_callback
 );
-void ffi_shared_rust_future_cancel_i64(void* _Nonnull handle
+void ffi_shared_klc_rust_future_cancel_i64(void* _Nonnull handle
 );
-void ffi_shared_rust_future_free_i64(void* _Nonnull handle
+void ffi_shared_klc_rust_future_free_i64(void* _Nonnull handle
 );
-int64_t ffi_shared_rust_future_complete_i64(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
+int64_t ffi_shared_klc_rust_future_complete_i64(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
 );
-void ffi_shared_rust_future_poll_f32(void* _Nonnull handle, void* _Nonnull uniffi_callback
+void ffi_shared_klc_rust_future_poll_f32(void* _Nonnull handle, void* _Nonnull uniffi_callback
 );
-void ffi_shared_rust_future_cancel_f32(void* _Nonnull handle
+void ffi_shared_klc_rust_future_cancel_f32(void* _Nonnull handle
 );
-void ffi_shared_rust_future_free_f32(void* _Nonnull handle
+void ffi_shared_klc_rust_future_free_f32(void* _Nonnull handle
 );
-float ffi_shared_rust_future_complete_f32(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
+float ffi_shared_klc_rust_future_complete_f32(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
 );
-void ffi_shared_rust_future_poll_f64(void* _Nonnull handle, void* _Nonnull uniffi_callback
+void ffi_shared_klc_rust_future_poll_f64(void* _Nonnull handle, void* _Nonnull uniffi_callback
 );
-void ffi_shared_rust_future_cancel_f64(void* _Nonnull handle
+void ffi_shared_klc_rust_future_cancel_f64(void* _Nonnull handle
 );
-void ffi_shared_rust_future_free_f64(void* _Nonnull handle
+void ffi_shared_klc_rust_future_free_f64(void* _Nonnull handle
 );
-double ffi_shared_rust_future_complete_f64(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
+double ffi_shared_klc_rust_future_complete_f64(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
 );
-void ffi_shared_rust_future_poll_pointer(void* _Nonnull handle, void* _Nonnull uniffi_callback
+void ffi_shared_klc_rust_future_poll_pointer(void* _Nonnull handle, void* _Nonnull uniffi_callback
 );
-void ffi_shared_rust_future_cancel_pointer(void* _Nonnull handle
+void ffi_shared_klc_rust_future_cancel_pointer(void* _Nonnull handle
 );
-void ffi_shared_rust_future_free_pointer(void* _Nonnull handle
+void ffi_shared_klc_rust_future_free_pointer(void* _Nonnull handle
 );
-void*_Nonnull ffi_shared_rust_future_complete_pointer(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
+void*_Nonnull ffi_shared_klc_rust_future_complete_pointer(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
 );
-void ffi_shared_rust_future_poll_rust_buffer(void* _Nonnull handle, void* _Nonnull uniffi_callback
+void ffi_shared_klc_rust_future_poll_rust_buffer(void* _Nonnull handle, void* _Nonnull uniffi_callback
 );
-void ffi_shared_rust_future_cancel_rust_buffer(void* _Nonnull handle
+void ffi_shared_klc_rust_future_cancel_rust_buffer(void* _Nonnull handle
 );
-void ffi_shared_rust_future_free_rust_buffer(void* _Nonnull handle
+void ffi_shared_klc_rust_future_free_rust_buffer(void* _Nonnull handle
 );
-RustBuffer ffi_shared_rust_future_complete_rust_buffer(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
+RustBuffer ffi_shared_klc_rust_future_complete_rust_buffer(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
 );
-void ffi_shared_rust_future_poll_void(void* _Nonnull handle, void* _Nonnull uniffi_callback
+void ffi_shared_klc_rust_future_poll_void(void* _Nonnull handle, void* _Nonnull uniffi_callback
 );
-void ffi_shared_rust_future_cancel_void(void* _Nonnull handle
+void ffi_shared_klc_rust_future_cancel_void(void* _Nonnull handle
 );
-void ffi_shared_rust_future_free_void(void* _Nonnull handle
+void ffi_shared_klc_rust_future_free_void(void* _Nonnull handle
 );
-void ffi_shared_rust_future_complete_void(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
+void ffi_shared_klc_rust_future_complete_void(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
 );
-uint16_t uniffi_shared_checksum_func_add(void
+uint16_t uniffi_shared_klc_checksum_func_add(void
     
 );
-uint32_t ffi_shared_uniffi_contract_version(void
+uint32_t ffi_shared_klc_uniffi_contract_version(void
     
 );
 

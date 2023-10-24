@@ -19,13 +19,13 @@ fileprivate extension RustBuffer {
     }
 
     static func from(_ ptr: UnsafeBufferPointer<UInt8>) -> RustBuffer {
-        try! rustCall { ffi_shared_rustbuffer_from_bytes(ForeignBytes(bufferPointer: ptr), $0) }
+        try! rustCall { ffi_shared_klc_rustbuffer_from_bytes(ForeignBytes(bufferPointer: ptr), $0) }
     }
 
     // Frees the buffer in place.
     // The buffer must not be used after this is called.
     func deallocate() {
-        try! rustCall { ffi_shared_rustbuffer_free(self, $0) }
+        try! rustCall { ffi_shared_klc_rustbuffer_free(self, $0) }
     }
 }
 
@@ -348,12 +348,12 @@ fileprivate struct FfiConverterString: FfiConverter {
     }
 }
 
-public func add(_ a: UInt32, _ b: UInt32)  -> UInt32 {
+public func add(_ left: UInt32, _ right: UInt32)  -> UInt32 {
     return try!  FfiConverterUInt32.lift(
         try! rustCall() {
-    uniffi_shared_fn_func_add(
-        FfiConverterUInt32.lower(a),
-        FfiConverterUInt32.lower(b),$0)
+    uniffi_shared_klc_fn_func_add(
+        FfiConverterUInt32.lower(left),
+        FfiConverterUInt32.lower(right),$0)
 }
     )
 }
@@ -369,11 +369,11 @@ private var initializationResult: InitializationResult {
     // Get the bindings contract version from our ComponentInterface
     let bindings_contract_version = 24
     // Get the scaffolding contract version by calling the into the dylib
-    let scaffolding_contract_version = ffi_shared_uniffi_contract_version()
+    let scaffolding_contract_version = ffi_shared_klc_uniffi_contract_version()
     if bindings_contract_version != scaffolding_contract_version {
         return InitializationResult.contractVersionMismatch
     }
-    if (uniffi_shared_checksum_func_add() != 50013) {
+    if (uniffi_shared_klc_checksum_func_add() != 22940) {
         return InitializationResult.apiChecksumMismatch
     }
 
@@ -390,3 +390,4 @@ private func uniffiEnsureInitialized() {
         fatalError("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
 }
+
