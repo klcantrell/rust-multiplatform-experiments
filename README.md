@@ -6,6 +6,8 @@ Playing with tools in the Rust ecosystem such as Uniffi and wasm-bindgen to crea
 
 ### Creating a Swift package that wraps the static library and Uniffi bindings
 
+> Instead of doing the below steps manually, make an Xcode build script that does it automatically. [Example](https://github.com/klcantrell/rust-multiplatform-experiments/blob/8e7bde0b081c335210a9d611f09e9a3de364870c/TryUniffiRust/TryUniffiRust.xcodeproj/project.pbxproj#L160-L178) that's probably best viewed in Xcode.
+
 1. Build the uniffi-bindgen cli tool
 
     `cargo build -p uniffi-bindgen`
