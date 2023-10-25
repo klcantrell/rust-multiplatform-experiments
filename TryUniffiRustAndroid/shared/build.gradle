@@ -77,21 +77,40 @@ afterEvaluate {
             it.dependsOn(tasks.named("cargoBuild"))
         }
     }
+
+    // `bindGen` needs to happen after `cargoBuild` since we're using the
+    // macro based way of generating bindings from dynamic libraries
+    tasks.named("bindGen") {
+        it.dependsOn("cargoBuild")
+    }
 }
 
-tasks.register('bindGen', Exec) {
+tasks.register("bindGen", Exec) {
     def outDir = "${projectDir}/../../shared_klc/src/androidBindings"
+
     workingDir "../../"
+
     if (System.getProperty('os.name').toLowerCase().contains('windows')) {
         commandLine("cmd", "/c",
-                "cargo build -p shared_klc && " + "target\\debug\\uniffi-bindgen generate --library target/x86_64-linux-android/debug/libshared_klc.so " + "--language kotlin " + "--out-dir " + outDir.replace('/', '\\'))
+                """
+                target\\debug\\uniffi-bindgen generate --library target/x86_64-linux-android/debug/libshared_klc.so \
+                --language kotlin \
+                --out-dir ${outDir.replace('/', '\\')}
+                """
+        )
     } else {
         commandLine("sh", "-c",
                 """\
-                cargo build -p shared_klc && \
                 target/debug/uniffi-bindgen generate --library target/x86_64-linux-android/debug/libshared_klc.so \
                 --language kotlin \
                 --out-dir $outDir
                 """)
     }
+}
+
+// fixes `java.lang.UnsatisfiedLinkError: Error looking up function` that happens after modifying Rust source
+// see https://github.com/mozilla/rust-android-gradle/issues/118#issuecomment-1777952460
+tasks.matching { it.name.matches(/merge.*JniLibFolders/) }.configureEach {
+    it.inputs.dir(new File(buildDir, "rustJniLibs/android"))
+    it.dependsOn("cargoBuild")
 }

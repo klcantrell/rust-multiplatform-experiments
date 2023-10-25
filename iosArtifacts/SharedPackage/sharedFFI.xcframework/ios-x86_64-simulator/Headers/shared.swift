@@ -348,10 +348,10 @@ fileprivate struct FfiConverterString: FfiConverter {
     }
 }
 
-public func addThings(_ left: Int32, _ right: Int32)  -> Int32 {
+public func addStuff(_ left: Int32, _ right: Int32)  -> Int32 {
     return try!  FfiConverterInt32.lift(
         try! rustCall() {
-    uniffi_shared_klc_fn_func_add_things(
+    uniffi_shared_klc_fn_func_add_stuff(
         FfiConverterInt32.lower(left),
         FfiConverterInt32.lower(right),$0)
 }
@@ -373,7 +373,7 @@ private var initializationResult: InitializationResult {
     if bindings_contract_version != scaffolding_contract_version {
         return InitializationResult.contractVersionMismatch
     }
-    if (uniffi_shared_klc_checksum_func_add_things() != 30249) {
+    if (uniffi_shared_klc_checksum_func_add_stuff() != 16828) {
         return InitializationResult.apiChecksumMismatch
     }
 

@@ -165,14 +165,16 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/../shared_klc/src/lib.rs",
 			);
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$(SRCROOT)/../shared_klc/src/iosBindings/shared.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# this script doesn't actually work yet since it\n# doesn't seem to finish in time before there\n# are linker errors\n\nbash $SRCROOT/xc-universal-binary.sh shared_klc $SRCROOT/.. $CONFIGURATION\n\ncd $SRCROOT/..\n$HOME/.cargo/bin/cargo run -p uniffi-bindgen generate \\\n--library target/x86_64-apple-ios/debug/libshared_klc.dylib \\\n--language swift \\\n--out-dir shared_klc/src/iosBindings\n\nmv shared_klc/src/iosBindings/sharedFFI.modulemap shared_klc/src/iosBindings/module.modulemap\n\nrm -rf iosArtifacts/SharedPackage/sharedFFI.xcframework\n\nxcodebuild -create-xcframework \\\n-library target/x86_64-apple-ios/debug/libshared_klc.a \\\n-headers shared_klc/src/iosBindings/ \\\n-output iosArtifacts/SharedPackage/sharedFFI.xcframework\n\ncat shared_klc/src/iosBindings/shared.swift > iosArtifacts/SharedPackage/Sources/Shared/Shared.swift\n";
+			shellScript = "bash $SRCROOT/xc-universal-binary.sh shared_klc $SRCROOT/.. $CONFIGURATION\n\ncd $SRCROOT/..\n$HOME/.cargo/bin/cargo run -p uniffi-bindgen generate \\\n--library target/x86_64-apple-ios/debug/libshared_klc.dylib \\\n--language swift \\\n--out-dir shared_klc/src/iosBindings\n\nmv shared_klc/src/iosBindings/sharedFFI.modulemap shared_klc/src/iosBindings/module.modulemap\n\nrm -rf iosArtifacts/SharedPackage/sharedFFI.xcframework\n\nxcodebuild -create-xcframework \\\n-library target/x86_64-apple-ios/debug/libshared_klc.a \\\n-headers shared_klc/src/iosBindings/ \\\n-output iosArtifacts/SharedPackage/sharedFFI.xcframework\n\ncat shared_klc/src/iosBindings/shared.swift > iosArtifacts/SharedPackage/Sources/Shared/Shared.swift\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

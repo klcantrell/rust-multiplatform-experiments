@@ -63,7 +63,7 @@ typedef struct RustCallStatus {
 typedef void (*UniFfiRustFutureContinuation)(void * _Nonnull, int8_t);
 
 // Scaffolding functions
-int32_t uniffi_shared_klc_fn_func_add_things(int32_t left, int32_t right, RustCallStatus *_Nonnull out_status
+int32_t uniffi_shared_klc_fn_func_add_stuff(int32_t left, int32_t right, RustCallStatus *_Nonnull out_status
 );
 RustBuffer ffi_shared_klc_rustbuffer_alloc(int32_t size, RustCallStatus *_Nonnull out_status
 );
@@ -179,7 +179,7 @@ void ffi_shared_klc_rust_future_free_void(void* _Nonnull handle
 );
 void ffi_shared_klc_rust_future_complete_void(void* _Nonnull handle, RustCallStatus *_Nonnull out_status
 );
-uint16_t uniffi_shared_klc_checksum_func_add_things(void
+uint16_t uniffi_shared_klc_checksum_func_add_stuff(void
     
 );
 uint32_t ffi_shared_klc_uniffi_contract_version(void
