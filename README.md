@@ -55,3 +55,8 @@ Playing with tools in the Rust ecosystem such as Uniffi and wasm-bindgen to crea
 
 1. Following the instructions at https://redbadger.github.io/crux/getting_started/Android/android.html. Crux is a Rust framework that builds on top of the Uniffi output.
 
+### Creating the wasm package for web
+
+1. Install [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/).
+1. `cd shared_klc && wasm-pack build --target web --out-dir ../wasmArtifacts`
+1. Depending on the framework, you may need to copy the generated wasm file into the assets directory. In the case of Astro, this is `public/`.

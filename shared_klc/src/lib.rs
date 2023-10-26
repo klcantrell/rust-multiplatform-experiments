@@ -1,6 +1,11 @@
+#[cfg(target_family = "wasm")]
+use wasm_bindgen::prelude::*;
+
+#[cfg(not(target_family = "wasm"))]
 uniffi::setup_scaffolding!("shared");
 
-#[uniffi::export]
+#[cfg_attr(target_family = "wasm", wasm_bindgen)]
+#[cfg_attr(not(target_family = "wasm"), uniffi::export)]
 pub fn add_stuff(left: i32, right: i32) -> i32 {
     left + right
 }

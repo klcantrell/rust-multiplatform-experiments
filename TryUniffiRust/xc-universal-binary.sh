@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+
+# Yanked and modified from https://github.com/mozilla/uniffi-rs/blob/2fdaae18aba290769bd56d7c9838edc5b8e747cd/examples/app/ios/xc-universal-binary.sh
+
 set -eEuvx
 
 function error_help()
