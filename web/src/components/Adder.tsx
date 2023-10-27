@@ -1,10 +1,12 @@
 import { useEffect } from "react";
-import initShared from "shared";
+import initShared, { sayAfter } from "shared";
 
 export default function Adder() {
   useEffect(() => {
-    initShared("shared_klc_bg.wasm").then(({ add_stuff }) => {
-      console.log(`4 + 5 = ${add_stuff(4, 5)}`);
+    initShared("shared_klc_bg.wasm").then(() => {
+      sayAfter(BigInt(2000), "Kalalau").then((result) => {
+        console.log(result);
+      });
     });
   }, []);
 

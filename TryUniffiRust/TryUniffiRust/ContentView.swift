@@ -11,7 +11,10 @@ struct ContentView: View {
         }
         .padding()
         .onAppear {
-            print("4 + 5 = \(addStuff(4, 5))")
+            Task {
+                let result = await sayAfter(2000, "Kalalau")
+                print(result)
+            }
         }
     }
 }

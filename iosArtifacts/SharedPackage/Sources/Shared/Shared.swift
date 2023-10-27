@@ -297,15 +297,15 @@ private func uniffiCheckCallStatus(
 // Public interface members begin here.
 
 
-fileprivate struct FfiConverterInt32: FfiConverterPrimitive {
-    typealias FfiType = Int32
-    typealias SwiftType = Int32
+fileprivate struct FfiConverterUInt64: FfiConverterPrimitive {
+    typealias FfiType = UInt64
+    typealias SwiftType = UInt64
 
-    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> Int32 {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> UInt64 {
         return try lift(readInt(&buf))
     }
 
-    public static func write(_ value: Int32, into buf: inout [UInt8]) {
+    public static func write(_ value: SwiftType, into buf: inout [UInt8]) {
         writeInt(&buf, lower(value))
     }
 }
@@ -347,16 +347,87 @@ fileprivate struct FfiConverterString: FfiConverter {
         writeBytes(&buf, value.utf8)
     }
 }
+private let UNIFFI_RUST_FUTURE_POLL_READY: Int8 = 0
+private let UNIFFI_RUST_FUTURE_POLL_MAYBE_READY: Int8 = 1
 
-public func addStuff(_ left: Int32, _ right: Int32)  -> Int32 {
-    return try!  FfiConverterInt32.lift(
-        try! rustCall() {
-    uniffi_shared_klc_fn_func_add_stuff(
-        FfiConverterInt32.lower(left),
-        FfiConverterInt32.lower(right),$0)
+internal func uniffiRustCallAsync<F, T>(
+    rustFutureFunc: () -> UnsafeMutableRawPointer,
+    pollFunc: (UnsafeMutableRawPointer, UnsafeMutableRawPointer) -> (),
+    completeFunc: (UnsafeMutableRawPointer, UnsafeMutablePointer<RustCallStatus>) -> F,
+    freeFunc: (UnsafeMutableRawPointer) -> (),
+    liftFunc: (F) throws -> T,
+    errorHandler: ((RustBuffer) throws -> Error)?
+) async throws -> T {
+    // Make sure to call uniffiEnsureInitialized() since future creation doesn't have a
+    // RustCallStatus param, so doesn't use makeRustCall()
+    uniffiEnsureInitialized()
+    let rustFuture = rustFutureFunc()
+    defer {
+        freeFunc(rustFuture)
+    }
+    var pollResult: Int8;
+    repeat {
+        pollResult = await withUnsafeContinuation {
+            pollFunc(rustFuture, ContinuationHolder($0).toOpaque())
+        }
+    } while pollResult != UNIFFI_RUST_FUTURE_POLL_READY
+
+    return try liftFunc(makeRustCall(
+        { completeFunc(rustFuture, $0) },
+        errorHandler: errorHandler
+    ))
 }
+
+// Callback handlers for an async calls.  These are invoked by Rust when the future is ready.  They
+// lift the return value or error and resume the suspended function.
+fileprivate func uniffiFutureContinuationCallback(ptr: UnsafeMutableRawPointer, pollResult: Int8) {
+    ContinuationHolder.fromOpaque(ptr).resume(pollResult)
+}
+
+// Wraps UnsafeContinuation in a class so that we can use reference counting when passing it across
+// the FFI
+class ContinuationHolder {
+    let continuation: UnsafeContinuation<Int8, Never>
+
+    init(_ continuation: UnsafeContinuation<Int8, Never>) {
+        self.continuation = continuation
+    }
+
+    func resume(_ pollResult: Int8) {
+        self.continuation.resume(returning: pollResult)
+    }
+
+    func toOpaque() -> UnsafeMutableRawPointer {
+        return Unmanaged<ContinuationHolder>.passRetained(self).toOpaque()
+    }
+
+    static func fromOpaque(_ ptr: UnsafeRawPointer) -> ContinuationHolder {
+        return Unmanaged<ContinuationHolder>.fromOpaque(ptr).takeRetainedValue()
+    }
+}
+
+fileprivate func uniffiInitContinuationCallback() {
+    ffi_shared_klc_rust_future_continuation_callback_set(uniffiFutureContinuationCallback)
+}
+
+public func sayAfter(_ ms: UInt64, _ who: String) async  -> String {
+    return try!  await uniffiRustCallAsync(
+        rustFutureFunc: {
+            uniffi_shared_klc_fn_func_say_after(
+                FfiConverterUInt64.lower(ms),
+                FfiConverterString.lower(who)
+            )
+        },
+        pollFunc: ffi_shared_klc_rust_future_poll_rust_buffer,
+        completeFunc: ffi_shared_klc_rust_future_complete_rust_buffer,
+        freeFunc: ffi_shared_klc_rust_future_free_rust_buffer,
+        liftFunc: FfiConverterString.lift,
+        errorHandler: nil
+        
     )
 }
+
+
 
 private enum InitializationResult {
     case ok
@@ -373,10 +444,11 @@ private var initializationResult: InitializationResult {
     if bindings_contract_version != scaffolding_contract_version {
         return InitializationResult.contractVersionMismatch
     }
-    if (uniffi_shared_klc_checksum_func_add_stuff() != 16828) {
+    if (uniffi_shared_klc_checksum_func_say_after() != 11163) {
         return InitializationResult.apiChecksumMismatch
     }
 
+    uniffiInitContinuationCallback()
     return InitializationResult.ok
 }
 
