@@ -58,8 +58,16 @@ cargo {
     // these are the four recommended targets for Android that will ensure your library works on all mainline android devices
     // make sure you have included the rust toolchain for each of these targets: \
     // `rustup target add aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android`
-    targets = ["arm", "arm64", "x86", "x86_64"]
+
+    // comment this if doing it for real. for now, just work with emulator target.
+    // targets = ["arm", "arm64", "x86", "x86_64"]
+
+    targets = ["x86_64"]
     extraCargoBuildArguments = ['--package', 'shared_klc']
+    exec { spec, toolchain ->
+        // find a way to make this not hard-coded if doing it for real.
+        spec.environment("RANLIB_x86_64-linux-android", "/Users/klcantrell_mac/Library/Android/Sdk/ndk/25.2.9519653/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-ranlib")
+    }
 }
 
 afterEvaluate {

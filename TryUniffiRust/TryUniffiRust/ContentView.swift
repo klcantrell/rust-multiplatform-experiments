@@ -12,7 +12,7 @@ struct ContentView: View {
         .padding()
         .onAppear {
             Task {
-                let result = await sayAfter(2000, "Kalalau")
+                let result = await getIp()
                 print(result)
             }
         }

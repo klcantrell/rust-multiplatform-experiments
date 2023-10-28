@@ -1,5 +1,4 @@
-use std::time::Duration;
-use async_std::future::{timeout, pending};
+use std::collections::HashMap;
 
 #[cfg(target_family = "wasm")]
 use wasm_bindgen::prelude::*;
@@ -7,28 +6,18 @@ use wasm_bindgen::prelude::*;
 #[cfg(not(target_family = "wasm"))]
 uniffi::setup_scaffolding!("shared");
 
-#[cfg_attr(not(target_family = "wasm"), uniffi::export)]
-pub async fn say_after(ms: u64, who: String) -> String {
-    let never = pending::<()>();
-    timeout(Duration::from_millis(ms), never).await.unwrap_err();
-    format!("Hello, {who}!")
+#[cfg_attr(not(target_family = "wasm"), uniffi::export(async_runtime = "tokio"))]
+pub async fn get_ip() -> String {
+    let url = "https://httpbin.org/ip";
+    let resp = reqwest::get(url).await.unwrap();
+    let data = resp.json::<HashMap<String, String>>().await.unwrap();
+    format!("data: {:?}", data)
 }
 
 #[cfg(target_family = "wasm")]
 #[cfg_attr(target_family = "wasm", wasm_bindgen)]
 #[allow(non_snake_case)]
-pub async fn sayAfter(ms: u64, who: String) -> Result<String, JsValue> {
-    Ok(say_after(ms, who).await)
+pub async fn getIp() -> Result<String, JsValue> {
+    Ok(get_ip().await)
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use async_std::task;
-
-    #[test]
-    fn it_works() {
-        let result = task::block_on(say_after(2000, "Kalalau".to_string()));
-        assert_eq!(result, "Hello, Kalalau!");
-    }
-}

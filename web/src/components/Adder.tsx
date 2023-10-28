@@ -1,19 +1,17 @@
 import { useEffect } from "react";
-import initShared, { sayAfter } from "shared";
+import initShared, { getIp } from "shared";
 
 export default function Adder() {
   useEffect(() => {
     initShared("shared_klc_bg.wasm").then(() => {
-      sayAfter(BigInt(2000), "Kalalau").then((result) => {
-        console.log(result);
-      });
+      getIp().then(console.log);
     });
   }, []);
 
   return (
     <div>
       <header>
-        <p>Adder</p>
+        <p>IP fetcher</p>
       </header>
     </div>
   );

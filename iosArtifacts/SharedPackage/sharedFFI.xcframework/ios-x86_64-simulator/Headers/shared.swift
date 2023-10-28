@@ -297,19 +297,6 @@ private func uniffiCheckCallStatus(
 // Public interface members begin here.
 
 
-fileprivate struct FfiConverterUInt64: FfiConverterPrimitive {
-    typealias FfiType = UInt64
-    typealias SwiftType = UInt64
-
-    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> UInt64 {
-        return try lift(readInt(&buf))
-    }
-
-    public static func write(_ value: SwiftType, into buf: inout [UInt8]) {
-        writeInt(&buf, lower(value))
-    }
-}
-
 fileprivate struct FfiConverterString: FfiConverter {
     typealias SwiftType = String
     typealias FfiType = RustBuffer
@@ -410,12 +397,10 @@ fileprivate func uniffiInitContinuationCallback() {
     ffi_shared_klc_rust_future_continuation_callback_set(uniffiFutureContinuationCallback)
 }
 
-public func sayAfter(_ ms: UInt64, _ who: String) async  -> String {
+public func getIp() async  -> String {
     return try!  await uniffiRustCallAsync(
         rustFutureFunc: {
-            uniffi_shared_klc_fn_func_say_after(
-                FfiConverterUInt64.lower(ms),
-                FfiConverterString.lower(who)
+            uniffi_shared_klc_fn_func_get_ip(
             )
         },
         pollFunc: ffi_shared_klc_rust_future_poll_rust_buffer,
@@ -444,7 +429,7 @@ private var initializationResult: InitializationResult {
     if bindings_contract_version != scaffolding_contract_version {
         return InitializationResult.contractVersionMismatch
     }
-    if (uniffi_shared_klc_checksum_func_say_after() != 11163) {
+    if (uniffi_shared_klc_checksum_func_get_ip() != 26015) {
         return InitializationResult.apiChecksumMismatch
     }
 

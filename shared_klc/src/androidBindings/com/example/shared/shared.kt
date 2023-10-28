@@ -377,7 +377,7 @@ internal interface _UniFFILib : Library {
         }
     }
 
-    fun uniffi_shared_klc_fn_func_say_after(`ms`: Long,`who`: RustBuffer.ByValue,
+    fun uniffi_shared_klc_fn_func_get_ip(
     ): Pointer
     fun ffi_shared_klc_rustbuffer_alloc(`size`: Int,_uniffi_out_err: RustCallStatus, 
     ): RustBuffer.ByValue
@@ -493,7 +493,7 @@ internal interface _UniFFILib : Library {
     ): Unit
     fun ffi_shared_klc_rust_future_complete_void(`handle`: Pointer,_uniffi_out_err: RustCallStatus, 
     ): Unit
-    fun uniffi_shared_klc_checksum_func_say_after(
+    fun uniffi_shared_klc_checksum_func_get_ip(
     ): Short
     fun ffi_shared_klc_uniffi_contract_version(
     ): Int
@@ -512,7 +512,7 @@ private fun uniffiCheckContractApiVersion(lib: _UniFFILib) {
 
 @Suppress("UNUSED_PARAMETER")
 private fun uniffiCheckApiChecksums(lib: _UniFFILib) {
-    if (lib.uniffi_shared_klc_checksum_func_say_after() != 11163.toShort()) {
+    if (lib.uniffi_shared_klc_checksum_func_get_ip() != 26015.toShort()) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
 }
@@ -564,26 +564,6 @@ internal suspend fun<T, F, E: Exception> uniffiRustCallAsync(
 
 // Public interface members begin here.
 
-
-public object FfiConverterULong: FfiConverter<ULong, Long> {
-    override fun lift(value: Long): ULong {
-        return value.toULong()
-    }
-
-    override fun read(buf: ByteBuffer): ULong {
-        return lift(buf.getLong())
-    }
-
-    override fun lower(value: ULong): Long {
-        return value.toLong()
-    }
-
-    override fun allocationSize(value: ULong) = 8
-
-    override fun write(value: ULong, buf: ByteBuffer) {
-        buf.putLong(value.toLong())
-    }
-}
 
 public object FfiConverterString: FfiConverter<String, RustBuffer.ByValue> {
     // Note: we don't inherit from FfiConverterRustBuffer, because we use a
@@ -644,9 +624,9 @@ public object FfiConverterString: FfiConverter<String, RustBuffer.ByValue> {
 
 
 @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
-suspend fun `sayAfter`(`ms`: ULong, `who`: String) : String {
+suspend fun `getIp`() : String {
     return uniffiRustCallAsync(
-        _UniFFILib.INSTANCE.uniffi_shared_klc_fn_func_say_after(FfiConverterULong.lower(`ms`),FfiConverterString.lower(`who`),),
+        _UniFFILib.INSTANCE.uniffi_shared_klc_fn_func_get_ip(),
         { future, continuation -> _UniFFILib.INSTANCE.ffi_shared_klc_rust_future_poll_rust_buffer(future, continuation) },
         { future, status -> _UniFFILib.INSTANCE.ffi_shared_klc_rust_future_complete_rust_buffer(future, status) },
         { future -> _UniFFILib.INSTANCE.ffi_shared_klc_rust_future_free_rust_buffer(future) },

@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.shared.sayAfter
+import com.example.shared.getIp
 import com.example.tryuniffirustandroid.ui.theme.TryUniffiRustAndroidTheme
 
 class MainActivity : ComponentActivity() {
@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     LaunchedEffect("first_page_load") {
-                        val result = sayAfter(2000u, "Kalalau")
+                        val result = getIp()
                         Log.i("TEST UNIFFI", result)
                     }
 
